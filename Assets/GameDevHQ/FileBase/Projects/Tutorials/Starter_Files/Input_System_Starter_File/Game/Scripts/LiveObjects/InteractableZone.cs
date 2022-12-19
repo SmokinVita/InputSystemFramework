@@ -125,6 +125,7 @@ namespace Game.Scripts.LiveObjects
             if (_inZone == true)
             {
 
+                //Check for input to do action
                 if (Input.GetKeyDown(_zoneKeyInput) && _keyState != KeyState.PressHold)
                 {
                     //press
@@ -148,7 +149,7 @@ namespace Game.Scripts.LiveObjects
                             }
                             break;
                     }
-                }
+                } //another input check
                 else if (Input.GetKey(_zoneKeyInput) && _keyState == KeyState.PressHold && _inHoldState == false)
                 {
                     _inHoldState = true;
@@ -162,7 +163,7 @@ namespace Game.Scripts.LiveObjects
                             break;           
                     }
                 }
-
+                //Input Hold
                 if (Input.GetKeyUp(_zoneKeyInput) && _keyState == KeyState.PressHold)
                 {
                     _inHoldState = false;

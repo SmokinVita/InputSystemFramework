@@ -23,6 +23,9 @@ namespace Game.Scripts.Player
         private GameObject _model;
 
 
+        private Vector2 movement;
+
+
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
@@ -55,11 +58,22 @@ namespace Game.Scripts.Player
 
         }
 
+        public void GetMovementInput(Vector2 direction)
+        {
+            movement = direction;
+        }
+
         private void CalcutateMovement()
         {
+
+            //Player Character Movement
             _playerGrounded = _controller.isGrounded;
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            //float h = Input.GetAxisRaw("Horizontal");
+            //float v = Input.GetAxisRaw("Vertical");
+
+            //Using New Input System to get input. 
+            float h = movement.x;
+            float v = movement.y;
 
             transform.Rotate(transform.up, h);
 

@@ -53,8 +53,11 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inDriveMode == true)
             {
+                //Life Movement
                 LiftControls();
+                //Input movement
                 CalcutateMovement();
+                //Exit Forklift
                 if (Input.GetKeyDown(KeyCode.Escape))
                     ExitDriveMode();
             }
@@ -78,6 +81,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
+        //Lift input
         private void LiftControls()
         {
             if (Input.GetKey(KeyCode.R))

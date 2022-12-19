@@ -33,6 +33,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (_hacked == true)
             {
+                //Checking for Input
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     var previous = _activeCamera;
@@ -47,6 +48,7 @@ namespace Game.Scripts.LiveObjects
                     _cameras[previous].Priority = 9;
                 }
 
+                //Exit Laptop mode
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     _hacked = false;

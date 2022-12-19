@@ -59,9 +59,11 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inFlightMode)
             {
+                //move Drone as needed
                 CalculateTilt();
                 CalculateMovementUpdate();
 
+                //Exit Drone mode
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     _inFlightMode = false;
@@ -74,6 +76,7 @@ namespace Game.Scripts.LiveObjects
         private void FixedUpdate()
         {
             _rigidbody.AddForce(transform.up * (9.81f), ForceMode.Acceleration);
+            //Up and down Movement.
             if (_inFlightMode)
                 CalculateMovementFixedUpdate();
         }
