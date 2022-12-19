@@ -9376,7 +9376,7 @@ MonoBehaviour:
   _displayMessage: Denotate C4
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
-  _zoneKeyInput: 32
+  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 1331263896}
 --- !u!1001 &565131287
@@ -17918,6 +17918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 359860633}
+  _interactableZone: {fileID: 0}
 --- !u!4 &1083244385
 Transform:
   m_ObjectHideFlags: 0
