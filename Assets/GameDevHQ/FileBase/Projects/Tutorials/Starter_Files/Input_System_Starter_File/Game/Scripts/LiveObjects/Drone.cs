@@ -25,7 +25,9 @@ namespace Game.Scripts.LiveObjects
         private CinemachineVirtualCamera _droneCam;
         [SerializeField]
         private InteractableZone _interactableZone;
-        
+
+        private Vector3 _droneMovement;
+        private float _rotationDirection;
 
         public static event Action OnEnterFlightMode;
         public static event Action onExitFlightmode;
@@ -55,6 +57,25 @@ namespace Game.Scripts.LiveObjects
             UIManager.Instance.DroneView(false);            
         }
 
+        public void ExitDroneMode()
+        {
+            if (_inFlightMode)
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    _inFlightMode = false;
+                    onExitFlightmode?.Invoke();
+                    ExitFlightMode();
+                }
+            }
+        }
+
+        public void MovementInput(Vector3 direciton, float rotation)
+        {
+            _droneMovement = direciton;
+            _rotationDirection = rotation;
+        }
+
         private void Update()
         {
             if (_inFlightMode)
@@ -64,12 +85,12 @@ namespace Game.Scripts.LiveObjects
                 CalculateMovementUpdate();
 
                 //Exit Drone mode
-                if (Input.GetKeyDown(KeyCode.Escape))
+                /*if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     _inFlightMode = false;
                     onExitFlightmode?.Invoke();
                     ExitFlightMode();
-                }
+                }*/
             }
         }
 
@@ -83,7 +104,7 @@ namespace Game.Scripts.LiveObjects
 
         private void CalculateMovementUpdate()
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            /*if (Input.GetKey(KeyCode.LeftArrow))
             {
                 var tempRot = transform.localRotation.eulerAngles;
                 tempRot.y -= _speed / 3;
@@ -94,25 +115,33 @@ namespace Game.Scripts.LiveObjects
                 var tempRot = transform.localRotation.eulerAngles;
                 tempRot.y += _speed / 3;
                 transform.localRotation = Quaternion.Euler(tempRot);
-            }
+            }*/
+
+            var tempRot = transform.localRotation.eulerAngles;
+            tempRot.y += _rotationDirection* _speed / 3;
+           
+            transform.localRotation = Quaternion.Euler(tempRot);
+
         }
 
         private void CalculateMovementFixedUpdate()
         {
-            
-            if (Input.GetKey(KeyCode.Space))
+
+            /*if (Input.GetKey(KeyCode.Space))
             {
                 _rigidbody.AddForce(transform.up * _speed, ForceMode.Acceleration);
             }
             if (Input.GetKey(KeyCode.V))
             {
                 _rigidbody.AddForce(-transform.up * _speed, ForceMode.Acceleration);
-            }
+            }*/
+            var verticalMovement = new Vector3(0, _droneMovement.y);
+            _rigidbody.AddForce(verticalMovement * _speed, ForceMode.Acceleration);
         }
 
         private void CalculateTilt()
         {
-            if (Input.GetKey(KeyCode.A)) 
+            /*if (Input.GetKey(KeyCode.A)) 
                 transform.rotation = Quaternion.Euler(00, transform.localRotation.eulerAngles.y, 30);
             else if (Input.GetKey(KeyCode.D))
                 transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, -30);
@@ -122,6 +151,9 @@ namespace Game.Scripts.LiveObjects
                 transform.rotation = Quaternion.Euler(-30, transform.localRotation.eulerAngles.y, 0);
             else 
                 transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
+            */
+
+            transform.rotation = Quaternion.Euler(_droneMovement.x, transform.localRotation.eulerAngles.y, _droneMovement.z);
         }
 
         private void OnDisable()

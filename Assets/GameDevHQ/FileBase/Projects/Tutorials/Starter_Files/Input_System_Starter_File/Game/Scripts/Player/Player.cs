@@ -53,7 +53,7 @@ namespace Game.Scripts.Player
 
         private void Update()
         {
-            if (_canMove == true)
+            
                 CalcutateMovement();
 
         }

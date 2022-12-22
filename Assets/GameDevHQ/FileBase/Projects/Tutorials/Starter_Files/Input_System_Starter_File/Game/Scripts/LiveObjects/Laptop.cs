@@ -70,10 +70,10 @@ namespace Game.Scripts.LiveObjects
 
         private void Update()
         {
-            if (_hacked == true)
+            /*if (_hacked == true)
             {
                 //Checking for Input
-                /*if (_inputPressed)
+                if (_inputPressed)
                 {
                     var previous = _activeCamera;
                     _activeCamera++;
@@ -93,8 +93,8 @@ namespace Game.Scripts.LiveObjects
                     _hacked = false;
                     onHackEnded?.Invoke();
                     ResetCameras();
-                }*/
-            }
+                }
+            }*/
         }
 
         void ResetCameras()
@@ -112,7 +112,6 @@ namespace Game.Scripts.LiveObjects
                 _progressBar.gameObject.SetActive(true);
                 StartCoroutine(HackingRoutine());
                 //onHackComplete?.Invoke();
-                Debug.Log("Did complete hold: " + zoneID);
             }
         }
 
@@ -154,6 +153,8 @@ namespace Game.Scripts.LiveObjects
         {
             InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded -= InteractableZone_onHoldEnded;
+
+            GameInput._onInteractionInput -= OnInteract;
         }
     }
 

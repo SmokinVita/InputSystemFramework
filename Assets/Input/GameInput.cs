@@ -14,6 +14,8 @@ public class GameInput : MonoBehaviour
     private Player _player;
     [SerializeField]
     private Laptop _laptop;
+    [SerializeField]
+    private Drone _drone;
 
     public static event Action<bool> _onInteractionInput;
 
@@ -22,6 +24,8 @@ public class GameInput : MonoBehaviour
     {
         Laptop.onHackComplete += Laptop_onHackComplete;
         Laptop.onHackEnded += Laptop_onHackEnded;
+
+        Drone.OnEnterFlightMode += Drone_OnEnterFlightMode;
     }
 
 
@@ -48,10 +52,23 @@ public class GameInput : MonoBehaviour
         //Laptop Actions
         _input.Laptop.SwapCameras.performed += SwapCameras_performed;
         _input.Laptop.ExitCameraMode.performed += ExitCameraMode_performed;
+
+        //Drone Actions
+        _input.Drone.ExitMode.performed += ExitMode_performed;
         
     }
 
+    #region Player Actions
+    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _onInteractionInput.Invoke(true);
+    }
 
+    private void Interact_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _onInteractionInput.Invoke(false);
+    }
+    #endregion
 
     #region Laptop Actions
     private void Laptop_onHackComplete()
@@ -76,22 +93,38 @@ public class GameInput : MonoBehaviour
     }
     #endregion
 
-    #region Player Actions
-    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    #region Drone Actions
+    private void Drone_OnEnterFlightMode()
     {
-        _onInteractionInput.Invoke(true);
+        _input.Drone.Enable();
+        _input.Player.Disable();
+    }
+    private void ExitMode_performed(InputAction.CallbackContext obj)
+    {
+        _drone.ExitDroneMode();
+        _input.Player.Enable();
+        _input.Drone.Disable();
     }
 
-    private void Interact_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        _onInteractionInput.Invoke(false);
-    }
     #endregion
+
 
     void Update()
     {
         //Player Movement Direction
-        var direction = _input.Player.Movement.ReadValue<Vector2>();
-        _player.GetMovementInput(direction);
+        var playerDirection = _input.Player.Movement.ReadValue<Vector2>();
+        _player.GetMovementInput(playerDirection);
+
+        //Drone Movement
+        var droneDirection = _input.Drone._3Dmovement.ReadValue<Vector3>();
+        var droneRotation = _input.Drone.Rotate.ReadValue<float>();
+        _drone.MovementInput(droneDirection, droneRotation);
+    }
+
+    void OnDisable()
+    {
+        Laptop.onHackComplete -= Laptop_onHackComplete;
+        Laptop.onHackEnded -= Laptop_onHackEnded;
+        Drone.OnEnterFlightMode -= Drone_OnEnterFlightMode;
     }
 }

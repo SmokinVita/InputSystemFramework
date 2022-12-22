@@ -223,15 +223,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
             ""id"": ""96b8031d-8d53-4921-a7f1-f0e8382e9d6c"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""6a1d1598-def1-4c56-b165-695d3c42e8b2"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""ExitMode"",
                     ""type"": ""Button"",
                     ""id"": ""f4613a8a-5633-4a65-a15c-7516dc65bd19"",
@@ -241,13 +232,22 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RiseandFall"",
-                    ""type"": ""Button"",
-                    ""id"": ""827d0119-6f7d-45bf-9cba-223fba728990"",
+                    ""name"": ""3Dmovement"",
+                    ""type"": ""Value"",
+                    ""id"": ""c2eb3981-494a-45e7-8ddf-61e80f9c168c"",
+                    ""expectedControlType"": ""Vector3"",
+                    ""processors"": ""ScaleVector3(x=30,z=30)"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""5d51c9b8-a629-4cd7-ae5e-0313bd88fffd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -263,90 +263,112 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector-Tilt"",
-                    ""id"": ""c6c9aac9-807a-44ae-a510-09670abe2273"",
-                    ""path"": ""2DVector"",
+                    ""name"": ""3D Vector"",
+                    ""id"": ""12ea7452-1133-47de-a159-56b5923dbd95"",
+                    ""path"": ""3DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""3Dmovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""b6192f08-348e-4b9f-9f0a-321b2212c3cf"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""dc94476d-3131-4df4-b09a-94b3489db252"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""3Dmovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""8131789c-6d70-4bce-b1ae-d333af4b6e0c"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""id"": ""d2c3bfcb-119d-4d54-b61a-a80f257fa0f5"",
+                    ""path"": ""<Keyboard>/v"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""3Dmovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""3094ab35-f911-4be7-adba-c8778e03ebe9"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""id"": ""d4a06b36-e04b-44fa-a700-5e06d47a1b70"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""3Dmovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""90f6bd2b-d1fa-4c9e-a948-6b2a6ffe0400"",
+                    ""id"": ""39e1057c-0cc2-40dc-8bf2-c0a986c8e7bf"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""3Dmovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""300dab35-47c1-488d-be4a-88b54e63c19f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""3Dmovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""56946e74-380c-4d07-8117-ada9408a3407"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""3Dmovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""1D Axis"",
-                    ""id"": ""c86b8fae-2e37-4b74-b12f-38ed59b838eb"",
+                    ""id"": ""d4bfba97-c62e-4093-bd58-e0e1f58c5a35"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RiseandFall"",
+                    ""action"": ""Rotate"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""a12f252a-4d38-4724-809f-027522fc6d79"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""a0240b7a-739f-43ab-ba2e-3ddd6d77b230"",
+                    ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RiseandFall"",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""0d28b48f-224a-4564-9c4f-479786d0f7db"",
-                    ""path"": ""<Keyboard>/v"",
+                    ""id"": ""99732242-8383-4f39-8fc5-3d077e54698f"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RiseandFall"",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -435,9 +457,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Laptop_SwapCameras = m_Laptop.FindAction("SwapCameras", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
-        m_Drone_Movement = m_Drone.FindAction("Movement", throwIfNotFound: true);
         m_Drone_ExitMode = m_Drone.FindAction("ExitMode", throwIfNotFound: true);
-        m_Drone_RiseandFall = m_Drone.FindAction("RiseandFall", throwIfNotFound: true);
+        m_Drone__3Dmovement = m_Drone.FindAction("3Dmovement", throwIfNotFound: true);
+        m_Drone_Rotate = m_Drone.FindAction("Rotate", throwIfNotFound: true);
         // Forklift
         m_Forklift = asset.FindActionMap("Forklift", throwIfNotFound: true);
         m_Forklift_ExitMode = m_Forklift.FindAction("ExitMode", throwIfNotFound: true);
@@ -583,16 +605,16 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     // Drone
     private readonly InputActionMap m_Drone;
     private IDroneActions m_DroneActionsCallbackInterface;
-    private readonly InputAction m_Drone_Movement;
     private readonly InputAction m_Drone_ExitMode;
-    private readonly InputAction m_Drone_RiseandFall;
+    private readonly InputAction m_Drone__3Dmovement;
+    private readonly InputAction m_Drone_Rotate;
     public struct DroneActions
     {
         private @InputActions m_Wrapper;
         public DroneActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Drone_Movement;
         public InputAction @ExitMode => m_Wrapper.m_Drone_ExitMode;
-        public InputAction @RiseandFall => m_Wrapper.m_Drone_RiseandFall;
+        public InputAction @_3Dmovement => m_Wrapper.m_Drone__3Dmovement;
+        public InputAction @Rotate => m_Wrapper.m_Drone_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Drone; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -602,28 +624,28 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_DroneActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
                 @ExitMode.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnExitMode;
                 @ExitMode.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnExitMode;
                 @ExitMode.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnExitMode;
-                @RiseandFall.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnRiseandFall;
-                @RiseandFall.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnRiseandFall;
-                @RiseandFall.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnRiseandFall;
+                @_3Dmovement.started -= m_Wrapper.m_DroneActionsCallbackInterface.On_3Dmovement;
+                @_3Dmovement.performed -= m_Wrapper.m_DroneActionsCallbackInterface.On_3Dmovement;
+                @_3Dmovement.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.On_3Dmovement;
+                @Rotate.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnRotate;
             }
             m_Wrapper.m_DroneActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
                 @ExitMode.started += instance.OnExitMode;
                 @ExitMode.performed += instance.OnExitMode;
                 @ExitMode.canceled += instance.OnExitMode;
-                @RiseandFall.started += instance.OnRiseandFall;
-                @RiseandFall.performed += instance.OnRiseandFall;
-                @RiseandFall.canceled += instance.OnRiseandFall;
+                @_3Dmovement.started += instance.On_3Dmovement;
+                @_3Dmovement.performed += instance.On_3Dmovement;
+                @_3Dmovement.canceled += instance.On_3Dmovement;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
             }
         }
     }
@@ -681,9 +703,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     }
     public interface IDroneActions
     {
-        void OnMovement(InputAction.CallbackContext context);
         void OnExitMode(InputAction.CallbackContext context);
-        void OnRiseandFall(InputAction.CallbackContext context);
+        void On_3Dmovement(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
     }
     public interface IForkliftActions
     {
