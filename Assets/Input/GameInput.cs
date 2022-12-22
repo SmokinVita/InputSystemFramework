@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Game.Scripts.Player;
 using Game.Scripts.LiveObjects;
 
@@ -11,26 +12,19 @@ public class GameInput : MonoBehaviour
     private InputActions _input;
     [SerializeField]
     private Player _player;
+    [SerializeField]
+    private Laptop _laptop;
 
-    private InteractableZone _interactableZone;
     public static event Action<bool> _onInteractionInput;
-    public static event Action _onExitMode;
 
-
-    private bool _isHoldingKey = false;
-
-
-
-    //Check each mode for event to subscribe to and on entering mode swap action maps
-    //Need one for Player to Drone and back to Player
-    //Player to laptop and back
-    //Player to Forklift and back.
 
     void OnEnable()
     {
-        Laptop.onHackComplete += ReleasePlayerControl; ;
-        Laptop.onHackEnded += ReturnPlayerControl; ;
+        Laptop.onHackComplete += Laptop_onHackComplete;
+        Laptop.onHackEnded += Laptop_onHackEnded;
     }
+
+
 
     void Start()
     {
@@ -43,7 +37,6 @@ public class GameInput : MonoBehaviour
         _input = new InputActions();
         _input.Player.Enable();
 
-
     }
 
     private void SubscribeToActionMapActions()
@@ -54,36 +47,32 @@ public class GameInput : MonoBehaviour
 
         //Laptop Actions
         _input.Laptop.SwapCameras.performed += SwapCameras_performed;
-        _input.Laptop.SwapCameras.canceled += SwapCameras_canceled;
         _input.Laptop.ExitCameraMode.performed += ExitCameraMode_performed;
+        
     }
+
+
 
     #region Laptop Actions
-    private void ReturnPlayerControl()
-    {
-        _input.Laptop.Disable();
-        _input.Player.Disable();
-        Debug.Log("Player is active");
-    }
-
-    private void ReleasePlayerControl()
+    private void Laptop_onHackComplete()
     {
         _input.Player.Disable();
         _input.Laptop.Enable();
-        Debug.Log("Laptop is active");
+    }
+    private void Laptop_onHackEnded()
+    {
+        _input.Laptop.Disable();
+        _input.Player.Enable();
     }
 
     private void SwapCameras_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        _onInteractionInput?.Invoke(true);
+        _laptop.SwitchCameras();
     }
-    private void SwapCameras_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        _onInteractionInput?.Invoke(false);
-    }
+ 
     private void ExitCameraMode_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        _onExitMode?.Invoke();
+        _laptop.ExitCameraMode();
     }
     #endregion
 

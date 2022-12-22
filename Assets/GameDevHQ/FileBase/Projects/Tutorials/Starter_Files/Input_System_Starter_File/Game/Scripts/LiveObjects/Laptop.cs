@@ -31,16 +31,6 @@ namespace Game.Scripts.LiveObjects
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
 
             GameInput._onInteractionInput += OnInteract;
-            GameInput._onExitMode += GameInput__onExitMode;
-        }
-
-        private void GameInput__onExitMode()
-        {
-            
-                _hacked = false;
-                onHackEnded?.Invoke();
-                ResetCameras();
-            Debug.Log("Tried to exit mode");
         }
 
         private void OnInteract(bool obj)
@@ -48,12 +38,42 @@ namespace Game.Scripts.LiveObjects
             _inputPressed = obj;
         }
 
+        public void SwitchCameras()
+        {
+            if (_hacked == true)
+            {
+                //Checking for Input
+
+                var previous = _activeCamera;
+                _activeCamera++;
+
+
+                if (_activeCamera >= _cameras.Length)
+                    _activeCamera = 0;
+
+
+                _cameras[_activeCamera].Priority = 11;
+                _cameras[previous].Priority = 9;
+
+            }
+        }
+
+        public void ExitCameraMode()
+        {
+            if (_hacked == true)
+            {
+                _hacked = false;
+                onHackEnded?.Invoke();
+                ResetCameras();
+            }
+        }
+
         private void Update()
         {
             if (_hacked == true)
             {
                 //Checking for Input
-                if (_inputPressed)
+                /*if (_inputPressed)
                 {
                     var previous = _activeCamera;
                     _activeCamera++;
@@ -65,7 +85,7 @@ namespace Game.Scripts.LiveObjects
 
                     _cameras[_activeCamera].Priority = 11;
                     _cameras[previous].Priority = 9;
-                }
+                }*/
 
                 //Exit Laptop mode
                 /*if (Input.GetKeyDown(KeyCode.Escape))
@@ -91,7 +111,7 @@ namespace Game.Scripts.LiveObjects
             {
                 _progressBar.gameObject.SetActive(true);
                 StartCoroutine(HackingRoutine());
-                onHackComplete?.Invoke();
+                //onHackComplete?.Invoke();
                 Debug.Log("Did complete hold: " + zoneID);
             }
         }
@@ -110,7 +130,6 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        
         IEnumerator HackingRoutine()
         {
             while (_progressBar.value < 1)
@@ -122,6 +141,7 @@ namespace Game.Scripts.LiveObjects
             //successfully hacked
             _hacked = true;
             _interactableZone.CompleteTask(3);
+            onHackComplete?.Invoke();
 
             //hide progress bar
             _progressBar.gameObject.SetActive(false);
@@ -129,7 +149,7 @@ namespace Game.Scripts.LiveObjects
             //enable Vcam1
             _cameras[0].Priority = 11;
         }
-        
+
         private void OnDisable()
         {
             InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;

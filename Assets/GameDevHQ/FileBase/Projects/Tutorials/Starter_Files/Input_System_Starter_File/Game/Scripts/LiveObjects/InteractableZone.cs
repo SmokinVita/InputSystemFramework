@@ -122,60 +122,6 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        /*private void Interact()
-        {
-            if (_inZone == true)
-            {
-
-                //Check for input to do action
-                if (_keyState != KeyState.PressHold)
-                {
-                    //press
-                    switch (_zoneType)
-                    {
-                        case ZoneType.Collectable:
-                            if (_itemsCollected == false)
-                            {
-                                CollectItems();
-                                _itemsCollected = true;
-                                UIManager.Instance.DisplayInteractableZoneMessage(false);
-                            }
-                            break;
-
-                        case ZoneType.Action:
-                            if (_actionPerformed == false)
-                            {
-                                PerformAction();
-                                _actionPerformed = true;
-                                UIManager.Instance.DisplayInteractableZoneMessage(false);
-                            }
-                            break;
-                    }
-                } //another input check
-                else if (_keyState == KeyState.PressHold && _inHoldState == false)
-                {
-                    _inHoldState = true;
-
-
-
-                    switch (_zoneType)
-                    {
-                        case ZoneType.HoldAction:
-                            PerformHoldAction();
-                            break;
-                    }
-                }
-                //Input Hold
-                if (_keyState == KeyState.PressHold)
-                {
-                    _inHoldState = false;
-                    onHoldEnded?.Invoke(_zoneID);
-                }
-
-
-            }
-        }*/
-
         private void Interact(bool gotInput)
         {
             _isGettingInput = gotInput;
