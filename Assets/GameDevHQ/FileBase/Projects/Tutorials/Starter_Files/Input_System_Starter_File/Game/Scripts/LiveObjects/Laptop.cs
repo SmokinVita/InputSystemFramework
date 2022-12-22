@@ -23,10 +23,29 @@ namespace Game.Scripts.LiveObjects
         public static event Action onHackComplete;
         public static event Action onHackEnded;
 
+        private bool _inputPressed = false;
+
         private void OnEnable()
         {
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
+
+            GameInput._onInteractionInput += OnInteract;
+            GameInput._onExitMode += GameInput__onExitMode;
+        }
+
+        private void GameInput__onExitMode()
+        {
+            
+                _hacked = false;
+                onHackEnded?.Invoke();
+                ResetCameras();
+            Debug.Log("Tried to exit mode");
+        }
+
+        private void OnInteract(bool obj)
+        {
+            _inputPressed = obj;
         }
 
         private void Update()
@@ -34,7 +53,7 @@ namespace Game.Scripts.LiveObjects
             if (_hacked == true)
             {
                 //Checking for Input
-                if (Input.GetKeyDown(KeyCode.E))
+                if (_inputPressed)
                 {
                     var previous = _activeCamera;
                     _activeCamera++;
@@ -49,12 +68,12 @@ namespace Game.Scripts.LiveObjects
                 }
 
                 //Exit Laptop mode
-                if (Input.GetKeyDown(KeyCode.Escape))
+                /*if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     _hacked = false;
                     onHackEnded?.Invoke();
                     ResetCameras();
-                }
+                }*/
             }
         }
 
@@ -73,6 +92,7 @@ namespace Game.Scripts.LiveObjects
                 _progressBar.gameObject.SetActive(true);
                 StartCoroutine(HackingRoutine());
                 onHackComplete?.Invoke();
+                Debug.Log("Did complete hold: " + zoneID);
             }
         }
 
