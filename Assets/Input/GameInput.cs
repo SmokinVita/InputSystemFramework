@@ -16,16 +16,19 @@ public class GameInput : MonoBehaviour
     private Laptop _laptop;
     [SerializeField]
     private Drone _drone;
+    [SerializeField]
+    private Forklift _forkLift;
 
     public static event Action<bool> _onInteractionInput;
 
 
     void OnEnable()
     {
+        //Subscribing to the Scenarios 
         Laptop.onHackComplete += Laptop_onHackComplete;
         Laptop.onHackEnded += Laptop_onHackEnded;
-
         Drone.OnEnterFlightMode += Drone_OnEnterFlightMode;
+        Forklift.onDriveModeEntered += Forklift_onDriveModeEntered;
     }
 
 
@@ -40,7 +43,6 @@ public class GameInput : MonoBehaviour
     {
         _input = new InputActions();
         _input.Player.Enable();
-
     }
 
     private void SubscribeToActionMapActions()
@@ -54,9 +56,13 @@ public class GameInput : MonoBehaviour
         _input.Laptop.ExitCameraMode.performed += ExitCameraMode_performed;
 
         //Drone Actions
-        _input.Drone.ExitMode.performed += ExitMode_performed;
-        
+        _input.Drone.ExitMode.performed += Drone_Exit;
+
+        //Forklift Actions
+        _input.Forklift.ExitMode.performed += Forklift_Exit;
     }
+
+   
 
     #region Player Actions
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -99,7 +105,7 @@ public class GameInput : MonoBehaviour
         _input.Drone.Enable();
         _input.Player.Disable();
     }
-    private void ExitMode_performed(InputAction.CallbackContext obj)
+    private void Drone_Exit(InputAction.CallbackContext obj)
     {
         _drone.ExitDroneMode();
         _input.Player.Enable();
@@ -108,6 +114,18 @@ public class GameInput : MonoBehaviour
 
     #endregion
 
+    #region Forklift Actions
+    private void Forklift_Exit(InputAction.CallbackContext obj)
+    {
+        _input.Forklift.Disable();
+        _input.Player.Enable();
+    }
+    private void Forklift_onDriveModeEntered()
+    {
+        _input.Player.Disable();
+        _input.Forklift.Enable();
+    }
+    #endregion
 
     void Update()
     {
@@ -119,6 +137,11 @@ public class GameInput : MonoBehaviour
         var droneDirection = _input.Drone._3Dmovement.ReadValue<Vector3>();
         var droneRotation = _input.Drone.Rotate.ReadValue<float>();
         _drone.MovementInput(droneDirection, droneRotation);
+
+        //Forklift
+        var forkliftDirection = _input.Forklift.Movement.ReadValue<Vector2>();
+        var liftInput = _input.Forklift.RiseandDropLift.ReadValue<float>();
+        _forkLift.GetInput(forkliftDirection, liftInput);
     }
 
     void OnDisable()

@@ -395,6 +395,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""1817e238-5482-4b1a-8350-deb7659258fd"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -434,11 +443,66 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""743a3877-4782-419f-9bf9-a18d63af081d"",
-                    ""path"": ""<Keyboard>/t"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Rise and Drop Lift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""6de1337e-0bd2-4157-91ad-ff8fcf8325df"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7a35fc0e-33f3-4997-a26f-71a0a47e2c8c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6bcc6e83-daff-4441-b8a8-6857f33638de"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5ab4a150-a9a1-4a7f-aef0-91d751dffe3a"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a2cc6bde-2de2-48d7-a5cd-5e18728e4c64"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -464,6 +528,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Forklift = asset.FindActionMap("Forklift", throwIfNotFound: true);
         m_Forklift_ExitMode = m_Forklift.FindAction("ExitMode", throwIfNotFound: true);
         m_Forklift_RiseandDropLift = m_Forklift.FindAction("Rise and Drop Lift", throwIfNotFound: true);
+        m_Forklift_Movement = m_Forklift.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -656,12 +721,14 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private IForkliftActions m_ForkliftActionsCallbackInterface;
     private readonly InputAction m_Forklift_ExitMode;
     private readonly InputAction m_Forklift_RiseandDropLift;
+    private readonly InputAction m_Forklift_Movement;
     public struct ForkliftActions
     {
         private @InputActions m_Wrapper;
         public ForkliftActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @ExitMode => m_Wrapper.m_Forklift_ExitMode;
         public InputAction @RiseandDropLift => m_Wrapper.m_Forklift_RiseandDropLift;
+        public InputAction @Movement => m_Wrapper.m_Forklift_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Forklift; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -677,6 +744,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @RiseandDropLift.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnRiseandDropLift;
                 @RiseandDropLift.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnRiseandDropLift;
                 @RiseandDropLift.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnRiseandDropLift;
+                @Movement.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
             }
             m_Wrapper.m_ForkliftActionsCallbackInterface = instance;
             if (instance != null)
@@ -687,6 +757,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @RiseandDropLift.started += instance.OnRiseandDropLift;
                 @RiseandDropLift.performed += instance.OnRiseandDropLift;
                 @RiseandDropLift.canceled += instance.OnRiseandDropLift;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
             }
         }
     }
@@ -711,5 +784,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     {
         void OnExitMode(InputAction.CallbackContext context);
         void OnRiseandDropLift(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }

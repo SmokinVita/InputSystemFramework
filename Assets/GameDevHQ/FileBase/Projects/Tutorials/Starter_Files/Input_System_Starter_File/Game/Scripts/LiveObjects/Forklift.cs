@@ -23,6 +23,9 @@ namespace Game.Scripts.LiveObjects
         public static event Action onDriveModeEntered;
         public static event Action onDriveModeExited;
 
+        private Vector2 _inputDirection;
+        private float _liftInput;
+
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += EnterDriveMode;
@@ -30,7 +33,7 @@ namespace Game.Scripts.LiveObjects
 
         private void EnterDriveMode(InteractableZone zone)
         {
-            if (_inDriveMode !=true && zone.GetZoneID() == 5) //Enter ForkLift
+            if (_inDriveMode != true && zone.GetZoneID() == 5) //Enter ForkLift
             {
                 _inDriveMode = true;
                 _forkliftCam.Priority = 11;
@@ -43,10 +46,10 @@ namespace Game.Scripts.LiveObjects
         private void ExitDriveMode()
         {
             _inDriveMode = false;
-            _forkliftCam.Priority = 9;            
+            _forkliftCam.Priority = 9;
             _driverModel.SetActive(false);
             onDriveModeExited?.Invoke();
-            
+
         }
 
         private void Update()
@@ -64,10 +67,20 @@ namespace Game.Scripts.LiveObjects
 
         }
 
+        //Get's input information from GameInput.
+        public void GetInput(Vector2 direction, float lift)
+        {
+            _inputDirection = direction;
+            _liftInput = lift;
+        }
+
         private void CalcutateMovement()
         {
-            float h = Input.GetAxisRaw("Horizontal");
+            /*float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
+            */
+            float h = _inputDirection.x;
+            float v = _inputDirection.y;
             var direction = new Vector3(0, 0, v);
             var velocity = direction * _speed;
 
@@ -84,13 +97,23 @@ namespace Game.Scripts.LiveObjects
         //Lift input
         private void LiftControls()
         {
-            if (Input.GetKey(KeyCode.R))
+            /*if (Input.GetKey(KeyCode.R))
                 LiftUpRoutine();
             else if (Input.GetKey(KeyCode.T))
-                LiftDownRoutine();
+                LiftDownRoutine();*/
+
+
+            Vector3 tempPos = _lift.transform.localPosition;
+            tempPos.y += Time.deltaTime * (_liftSpeed * _liftInput);
+            _lift.transform.localPosition = new Vector3(tempPos.x, tempPos.y, tempPos.z);
+
+            if (_lift.transform.localPosition.y >= _liftUpperLimit.y)
+                _lift.transform.localPosition = _liftUpperLimit;
+            else if (_lift.transform.localPosition.y <= _liftLowerLimit.y)
+                _lift.transform.localPosition = _liftLowerLimit;
         }
 
-        private void LiftUpRoutine()
+        /*private void LiftUpRoutine()
         {
             if (_lift.transform.localPosition.y < _liftUpperLimit.y)
             {
@@ -112,7 +135,7 @@ namespace Game.Scripts.LiveObjects
             }
             else if (_lift.transform.localPosition.y <= _liftUpperLimit.y)
                 _lift.transform.localPosition = _liftLowerLimit;
-        }
+        }*/
 
         private void OnDisable()
         {
