@@ -11448,7 +11448,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 718646.3, y: 7.778278e+31, z: 1.9753615e+31, w: 1.7106206e+19}
+  m_BoundingSphereOverride: {x: 3.030571e-39, y: 9.1835e-41, z: 1.8e-43, w: 8.689991e-10}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -17921,6 +17921,7 @@ MonoBehaviour:
   _laptop: {fileID: 816558616}
   _drone: {fileID: 1073608670}
   _forkLift: {fileID: 402105197}
+  _crate: {fileID: 0}
 --- !u!4 &1083244385
 Transform:
   m_ObjectHideFlags: 0

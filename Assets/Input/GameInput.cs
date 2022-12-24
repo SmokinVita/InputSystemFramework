@@ -18,6 +18,8 @@ public class GameInput : MonoBehaviour
     private Drone _drone;
     [SerializeField]
     private Forklift _forkLift;
+    [SerializeField]
+    private Crate _crate;
 
     public static event Action<bool> _onInteractionInput;
 
@@ -60,9 +62,11 @@ public class GameInput : MonoBehaviour
 
         //Forklift Actions
         _input.Forklift.ExitMode.performed += Forklift_Exit;
+
+
     }
 
-   
+
 
     #region Player Actions
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -92,7 +96,7 @@ public class GameInput : MonoBehaviour
     {
         _laptop.SwitchCameras();
     }
- 
+
     private void ExitCameraMode_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         _laptop.ExitCameraMode();
@@ -129,19 +133,35 @@ public class GameInput : MonoBehaviour
 
     void Update()
     {
-        //Player Movement Direction
-        var playerDirection = _input.Player.Movement.ReadValue<Vector2>();
-        _player.GetMovementInput(playerDirection);
+        if (_input.Player.enabled == true)
+        {
+            //Player Movement Direction
+            var playerDirection = _input.Player.Movement.ReadValue<Vector2>();
+            _player.GetMovementInput(playerDirection);
+        }
+        else if (_input.Drone.enabled == true)
+        {
+            //Drone Movement
+            var droneDirection = _input.Drone._3Dmovement.ReadValue<Vector3>();
+            var droneRotation = _input.Drone.Rotate.ReadValue<float>();
+            _drone.MovementInput(droneDirection, droneRotation);
+        }
+        else if (_input.Forklift.enabled == true)
+        {
+            //Forklift
+            var forkliftDirection = _input.Forklift.Movement.ReadValue<Vector2>();
+            var liftInput = _input.Forklift.RiseandDropLift.ReadValue<float>();
+            _forkLift.GetInput(forkliftDirection, liftInput);
+        }
+    }
 
-        //Drone Movement
-        var droneDirection = _input.Drone._3Dmovement.ReadValue<Vector3>();
-        var droneRotation = _input.Drone.Rotate.ReadValue<float>();
-        _drone.MovementInput(droneDirection, droneRotation);
-
-        //Forklift
-        var forkliftDirection = _input.Forklift.Movement.ReadValue<Vector2>();
-        var liftInput = _input.Forklift.RiseandDropLift.ReadValue<float>();
-        _forkLift.GetInput(forkliftDirection, liftInput);
+    IEnumerator HoldForBreakRoutine()
+    {
+        while(true)
+        {
+            _crate.BreakPart();
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     void OnDisable()

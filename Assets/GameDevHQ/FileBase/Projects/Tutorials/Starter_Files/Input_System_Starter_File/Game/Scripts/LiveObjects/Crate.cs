@@ -53,8 +53,6 @@ namespace Game.Scripts.LiveObjects
             
         }
 
-
-
         public void BreakPart()
         {
             int rng = Random.Range(0, _brakeOff.Count);
@@ -73,6 +71,15 @@ namespace Game.Scripts.LiveObjects
             }
 
             _interactableZone.ResetAction(6);
+        }
+
+        IEnumerator InputHoldBreakOffRoutine()
+        {
+            while (true)
+            {
+                BreakPart();
+                yield return null;
+            }
         }
 
         private void OnDisable()
