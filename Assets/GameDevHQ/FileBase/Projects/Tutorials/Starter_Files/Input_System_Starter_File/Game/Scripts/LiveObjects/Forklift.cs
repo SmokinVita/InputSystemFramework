@@ -43,7 +43,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void ExitDriveMode()
+        public void ExitDriveMode()
         {
             _inDriveMode = false;
             _forkliftCam.Priority = 9;
@@ -61,8 +61,8 @@ namespace Game.Scripts.LiveObjects
                 //Input movement
                 CalcutateMovement();
                 //Exit Forklift
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    ExitDriveMode();
+                /*if (Input.GetKeyDown(KeyCode.Escape))
+                    ExitDriveMode();*/
             }
 
         }

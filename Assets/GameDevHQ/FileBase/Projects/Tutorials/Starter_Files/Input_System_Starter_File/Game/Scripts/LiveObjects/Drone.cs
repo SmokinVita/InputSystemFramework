@@ -51,22 +51,21 @@ namespace Game.Scripts.LiveObjects
         }
 
         private void ExitFlightMode()
-        {            
+        {
             _droneCam.Priority = 9;
             _inFlightMode = false;
-            UIManager.Instance.DroneView(false);            
+            UIManager.Instance.DroneView(false);
         }
 
         public void ExitDroneMode()
         {
             if (_inFlightMode)
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    _inFlightMode = false;
-                    onExitFlightmode?.Invoke();
-                    ExitFlightMode();
-                }
+
+                _inFlightMode = false;
+                onExitFlightmode?.Invoke();
+                ExitFlightMode();
+
             }
         }
 
@@ -118,8 +117,8 @@ namespace Game.Scripts.LiveObjects
             }*/
 
             var tempRot = transform.localRotation.eulerAngles;
-            tempRot.y += _rotationDirection* _speed / 3;
-           
+            tempRot.y += _rotationDirection * _speed / 3;
+
             transform.localRotation = Quaternion.Euler(tempRot);
 
         }

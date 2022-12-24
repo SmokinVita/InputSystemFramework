@@ -105,6 +105,7 @@ public class GameInput : MonoBehaviour
     }
     private void Drone_Exit(InputAction.CallbackContext obj)
     {
+        Debug.Log("Exit was called...");
         _drone.ExitDroneMode();
         _input.Player.Enable();
         _input.Drone.Disable();
@@ -115,6 +116,7 @@ public class GameInput : MonoBehaviour
     #region Forklift Actions
     private void Forklift_Exit(InputAction.CallbackContext obj)
     {
+        _forkLift.ExitDriveMode();
         _input.Forklift.Disable();
         _input.Player.Enable();
     }
