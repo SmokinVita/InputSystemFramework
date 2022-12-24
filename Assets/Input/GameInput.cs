@@ -33,8 +33,6 @@ public class GameInput : MonoBehaviour
         Forklift.onDriveModeEntered += Forklift_onDriveModeEntered;
     }
 
-
-
     void Start()
     {
         InitializeInput();
@@ -62,11 +60,7 @@ public class GameInput : MonoBehaviour
 
         //Forklift Actions
         _input.Forklift.ExitMode.performed += Forklift_Exit;
-
-
     }
-
-
 
     #region Player Actions
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -155,17 +149,9 @@ public class GameInput : MonoBehaviour
         }
     }
 
-    IEnumerator HoldForBreakRoutine()
-    {
-        while(true)
-        {
-            _crate.BreakPart();
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
     void OnDisable()
     {
+        //Unsubscribing to the scenarios
         Laptop.onHackComplete -= Laptop_onHackComplete;
         Laptop.onHackEnded -= Laptop_onHackEnded;
         Drone.OnEnterFlightMode -= Drone_OnEnterFlightMode;

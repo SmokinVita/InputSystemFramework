@@ -73,15 +73,6 @@ namespace Game.Scripts.LiveObjects
             _interactableZone.ResetAction(6);
         }
 
-        IEnumerator InputHoldBreakOffRoutine()
-        {
-            while (true)
-            {
-                BreakPart();
-                yield return null;
-            }
-        }
-
         private void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
